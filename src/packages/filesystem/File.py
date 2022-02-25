@@ -2,7 +2,7 @@ class File:
     """
     Class to represent a file within the OS
     """
-    def __init__(self, name="", contents=""):
+    def __init__(self, name: str = "", contents: str = "") -> None:
         """
         Basic constructor for a file
 
@@ -12,7 +12,7 @@ class File:
         self.name = name
         self.contents = contents # Contains a string of the file
 
-    def append(self, text=""):
+    def append(self, text: str = "") -> None:
         """
         Append something to the file
 
@@ -21,7 +21,7 @@ class File:
         """
         self.contents += text
 
-    def write(self, text=""):
+    def write(self, text: str = "") -> None:
         """
         Overwrites the file's text
 
@@ -30,7 +30,7 @@ class File:
         """
         self.contents = text
 
-    def read(self):
+    def read(self) -> str:
         """
         Read the text from the file
 
@@ -38,7 +38,7 @@ class File:
         """
         return self.contents
 
-    def copy_from(self, dir, name=""):
+    def copy_from(self, dir, name: str = "") -> None:
         """
         Copies everything
 

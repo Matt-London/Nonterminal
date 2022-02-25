@@ -8,7 +8,7 @@ class Interpreter:
     """
     Interpreter class to handle the terminal
     """
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor with no need for arguments
         """
@@ -25,7 +25,7 @@ class Interpreter:
         # Set reference from workingDir
         var.workingDir = self.workingDir
 
-    def prompt(self):
+    def prompt(self) -> int:
         """
         Prompts for input
 
@@ -43,7 +43,7 @@ class Interpreter:
         self.command = str(input())
         return self.process(self.command)
 
-    def process(self, command=""):
+    def process(self, command: str = "") -> int:
         """
         Process given input and run command
 

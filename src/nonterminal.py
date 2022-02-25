@@ -2,11 +2,11 @@ import packages.resources.variables as var
 from packages.parser.Interpreter import Interpreter
 
 
-def main():
+def main() -> None:
     """
     Main function with command loop
 
-    :return: Exit code
+    :return: None
     """
     interpreter = Interpreter()
 

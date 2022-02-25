@@ -4,7 +4,7 @@ from os import system, name
 # Clears screen
 # CREDIT: https://www.geeksforgeeks.org/clear-screen-python/
 # By: mohit_negi
-def clear():
+def clear() -> None:
     """
     Clears the screen
 

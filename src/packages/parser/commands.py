@@ -6,7 +6,7 @@ from ..filesystem.Directory import Directory
 from ..filesystem.File import File
 
 
-def is_banned(command=""):
+def is_banned(command: str = "") -> bool:
     """
     Check whether a command is banned
 
@@ -28,7 +28,7 @@ def is_banned(command=""):
     return False
 
 
-def special(command=""):
+def special(command: str = "") -> bool:
     """
     Check if it is a special command
 
@@ -86,7 +86,7 @@ def special(command=""):
         return False
 
 
-def interchange(command=""):
+def interchange(command: str = "") -> bool:
     """
     Swaps out tokens that need to be adjusted
 
@@ -113,7 +113,7 @@ def interchange(command=""):
     var.command = command
 
 
-def filesystem(command=""):
+def filesystem(command: str = "") -> bool:
     """
     Run a filesystem command
 

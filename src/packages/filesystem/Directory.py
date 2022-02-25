@@ -4,11 +4,12 @@ from ..resources.colors import colors
 from ..resources import variables as var
 from .File import File
 
+
 class Directory:
     """
     Class to represent a folder in the filesystem
     """
-    def __init__(self, name="", container=None):
+    def __init__(self, name: str = "", container=None) -> None:
         """
         Constructor for a basic folder
 
@@ -19,7 +20,7 @@ class Directory:
         self.contents = []
         self.container = container
 
-    def index(self, find):
+    def index(self, find: str) -> int:
         """
         Gets the index of the folder by its name
 
@@ -31,7 +32,7 @@ class Directory:
                 return i
         return -1
 
-    def add(self, dirFile):
+    def add(self, dirFile) -> bool:
         """
         Add a file or directory to the container
 
@@ -45,7 +46,7 @@ class Directory:
         self.contents.append(dirFile)
         return True
 
-    def get(self, neededName):
+    def get(self, neededName: str):
         """
         Get a folder or file from the current directory
 
@@ -56,7 +57,7 @@ class Directory:
         if ind >= 0:
             return self.contents[ind]
 
-    def has_sub(self):
+    def has_sub(self) -> bool:
         """
         Does this directory have at least one sub directory?
 
@@ -67,7 +68,7 @@ class Directory:
                 return True
         return False
 
-    def get_sub(self, path=""):
+    def get_sub(self, path: str = ""):
         """
         Iterates through the path recursively looking for slashes
 
@@ -106,7 +107,7 @@ class Directory:
                 return self.contents[nextDir]
             return self.contents[nextDir].get_sub(path)
 
-    def get_path(self):
+    def get_path(self) -> str:
         """
         Gets path to current directory
 
@@ -117,7 +118,7 @@ class Directory:
         
         return self.container.get_path() + "/" + self.name
 
-    def get_container(self, path=""):
+    def get_container(self, path: str = ""):
         """
         Gets the container of this directory
 
@@ -129,7 +130,7 @@ class Directory:
             return self
         return toR
 
-    def delete(self, path=""):
+    def delete(self, path: str = "") -> bool:
         """
         Delete a file or directory by name
 
@@ -145,7 +146,6 @@ class Directory:
                     self.contents.pop(ind)
                     return True
 
-
             name = pathSplit.pop()
             path = "/".join(pathSplit)
             ind = self.get_sub(path).index(name)
@@ -154,7 +154,7 @@ class Directory:
                 return True
         return False
 
-    def copy_from(self, dir, name=""):
+    def copy_from(self, dir, name: str = "") -> None:
         """
         Perform a copy from a dir to a new directory
 
@@ -170,7 +170,7 @@ class Directory:
 
     # ============== Shell Commands ==============
 
-    def ls(self, path=""):
+    def ls(self, path: str = "") -> bool:
         """
         List all contents of the directory
 
@@ -195,7 +195,7 @@ class Directory:
         if lenContent != 0:
             print()
 
-    def mkdir(self, path=""):
+    def mkdir(self, path: str = "") -> bool:
         """
         Make a new directory
 
@@ -218,7 +218,7 @@ class Directory:
             return True
         return False
 
-    def mv(self, orig="", final=""):
+    def mv(self, orig: str = "", final: str = "") -> bool:
         """
         Rename or move anything
 
@@ -254,7 +254,7 @@ class Directory:
         var.exit_code = 0
         return True
 
-    def cp(self, orig="", final="", recurse=False, fromMv=False):
+    def cp(self, orig: str = "", final: str = "", recurse: bool = False, fromMv: bool = False) -> bool:
         """
         Copy from to destination
 
@@ -371,7 +371,7 @@ class Directory:
         
         return False
 
-    def touch(self, path=""):
+    def touch(self, path: str = "") -> bool:
         """
         Make a new empty file
 
@@ -391,7 +391,7 @@ class Directory:
             path = "/".join(pathSplit)
             self.get_sub(path).add(File(name))
 
-    def rm(self, path="", recurse=False):
+    def rm(self, path: str = "", recurse: bool = False) -> bool:
         """
         Delete a given file
 
@@ -413,7 +413,7 @@ class Directory:
                 print("rm: cannot remove '{}': No such file or directory".format(path))
                 return False
 
-    def rmdir(self, path=""):
+    def rmdir(self, path: str = "") -> bool:
         """
         Delete a directory
 
