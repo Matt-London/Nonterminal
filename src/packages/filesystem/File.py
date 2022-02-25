@@ -1,23 +1,51 @@
 class File:
-    # Constructor
+    """
+    Class to represent a file within the OS
+    """
     def __init__(self, name="", contents=""):
+        """
+        Basic constructor for a file
+
+        :param name: Name of file
+        :param contents: Contents of the file
+        """
         self.name = name
         self.contents = contents # Contains a string of the file
 
-    # Append to file's text
     def append(self, text=""):
+        """
+        Append something to the file
+
+        :param text: Text to append
+        :return: None
+        """
         self.contents += text
-    
-    # Overwrites the files's text
+
     def write(self, text=""):
+        """
+        Overwrites the file's text
+
+        :param text: Text to overwrite with
+        :return: None
+        """
         self.contents = text
 
-    # Returns the text
     def read(self):
+        """
+        Read the text from the file
+
+        :return: None
+        """
         return self.contents
-    
-    # Copies everything to here
+
     def copy_from(self, dir, name=""):
+        """
+        Copies everything
+
+        :param dir: From copy
+        :param name: New name
+        :return: None
+        """
         if not name:
             self.name = dir.name
         else:

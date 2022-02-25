@@ -5,8 +5,14 @@ from ..resources import functions as function
 from ..filesystem.Directory import Directory
 from ..filesystem.File import File
 
-# Returns true if it's a banned command
+
 def is_banned(command=""):
+    """
+    Check whether a command is banned
+
+    :param command: Command to check
+    :return: Whether it is banned
+    """
     if not command:
         return False
 
@@ -21,8 +27,14 @@ def is_banned(command=""):
     
     return False
 
-# Define special commands (Like not super important stuff)
+
 def special(command=""):
+    """
+    Check if it is a special command
+
+    :param command: Command to check
+    :return: Whether it is special
+    """
     if not command:
         return False
 
@@ -69,21 +81,18 @@ def special(command=""):
             return True
         else:
             sys.exit(0)
-            return True # Never ever will run. Ever.
-    
-    # # Wants last return code
-    # elif command == "$?":
-    #     print()
-    
 
-    # Return false
     else:
         return False
 
-    return False
 
-# Interchanges certain tokens that should not be there
 def interchange(command=""):
+    """
+    Swaps out tokens that need to be adjusted
+
+    :param command: Command to swap
+    :return: Whether it was successful
+    """
     if not command:
         return False
     
@@ -103,8 +112,14 @@ def interchange(command=""):
     # Update
     var.command = command
 
-# Runs filesystem commands
+
 def filesystem(command=""):
+    """
+    Run a filesystem command
+
+    :param command: Command to run
+    :return: Whether it was successful
+    """
     verbose = False
 
     # Save vars locally
@@ -430,7 +445,6 @@ def filesystem(command=""):
             recurse = True
             token.remove("-r")
 
-        
         # Make sure correct args
         if len(token) == 0:
             print("cp: missing file operand")

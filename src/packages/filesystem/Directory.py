@@ -5,21 +5,39 @@ from ..resources import variables as var
 from .File import File
 
 class Directory:
-    # Basic constructor
+    """
+    Class to represent a folder in the filesystem
+    """
     def __init__(self, name="", container=None):
+        """
+        Constructor for a basic folder
+
+        :param name: Name of the folder
+        :param container: Containing folder
+        """
         self.name = name
         self.contents = []
         self.container = container
-    
-    # grabs index of contents by name
+
     def index(self, find):
+        """
+        Gets the index of the folder by its name
+
+        :param find: Name of folder to find
+        :return: Index of folder
+        """
         for i in range(len(self.contents)):
             if self.contents[i].name == find:
                 return i
         return -1
-    
-    # Add something to the container
+
     def add(self, dirFile):
+        """
+        Add a file or directory to the container
+
+        :param dirFile: Directory or File to add
+        :return: Whether it was successful or not
+        """
         # Check for duplicate names
         if self.index(dirFile.name) != -1:
             return False
@@ -27,21 +45,35 @@ class Directory:
         self.contents.append(dirFile)
         return True
 
-    # Retrieve something that's in contents
     def get(self, neededName):
+        """
+        Get a folder or file from the current directory
+
+        :param neededName: Name of folder/file to grab
+        :return: Reference to the searched name
+        """
         ind = self.index(neededName)
         if ind >= 0:
             return self.contents[ind]
 
-    # Returns true if it has at least one sub directory
     def has_sub(self):
+        """
+        Does this directory have at least one sub directory?
+
+        :return: If it has sub or not
+        """
         for content in self.contents:
             if type(content) == Directory:
                 return True
         return False
-    
-    # Iterates through, looks for slashes and goes to subs (recursion, ooooh!)
+
     def get_sub(self, path=""):
+        """
+        Iterates through the path recursively looking for slashes
+
+        :param path: Path to search through
+        :return: Reference to the desired dir or file
+        """
         if path == "":
             return self
         
@@ -73,27 +105,37 @@ class Directory:
             if type(self.contents[nextDir]) == File:
                 return self.contents[nextDir]
             return self.contents[nextDir].get_sub(path)
-        
-        # print("get_sub error")
-    
-    # Returns a string which is the path from this directory to the top
+
     def get_path(self):
+        """
+        Gets path to current directory
+
+        :return: String of path to current directory
+        """
         if self.container == None:
             return self.name
         
         return self.container.get_path() + "/" + self.name
 
-    # Like get_sub but it gives container
     def get_container(self, path=""):
+        """
+        Gets the container of this directory
+
+        :param path: Path to look for
+        :return: Reference to the searched for item
+        """
         toR = self.get_sub("/".join(path.split("/")[:-1]))
         if toR == False:
             return self
         return toR
 
-        
-
-    # Delete file/dir by name:
     def delete(self, path=""):
+        """
+        Delete a file or directory by name
+
+        :param path: Path to delete
+        :return: Whether it was successful
+        """
         ind = -1
         if path:
             pathSplit = path.split("/")
@@ -111,22 +153,30 @@ class Directory:
                 self.get_sub(path).contents.pop(ind)
                 return True
         return False
-    
-    # Copies everything to here
+
     def copy_from(self, dir, name=""):
+        """
+        Perform a copy from a dir to a new directory
+
+        :param dir: Directory to copy
+        :param name: Name of the directory to copy
+        :return: None
+        """
         if not name:
             self.name = dir.name
         else:
             self.name = name
         self.contents = dir.contents
 
-        
-
-
     # ============== Shell Commands ==============
 
-    # List all contents in directory
     def ls(self, path=""):
+        """
+        List all contents of the directory
+
+        :param path: Path to list
+        :return: Whether it was successful
+        """
         if not self.get_sub(path):
             print("ls: cannot access '{}': No such file or directory".format(path))
             return False
@@ -144,9 +194,14 @@ class Directory:
                 print(content.name + "\t", end="")
         if lenContent != 0:
             print()
-    
-    # Make new dir
+
     def mkdir(self, path=""):
+        """
+        Make a new directory
+
+        :param path: Path to create
+        :return: Whether it was successful
+        """
         if path:
             # Check if the name already exists
             if self.get_sub(path):
@@ -162,9 +217,15 @@ class Directory:
             self.get_sub(path).add(Directory(name, self.get_sub(path)))
             return True
         return False
-    
-    # Rename/move anything
+
     def mv(self, orig="", final=""):
+        """
+        Rename or move anything
+
+        :param orig: Original
+        :param final: Destination
+        :return: Whether it was successful
+        """
         # Print error for no operands
         if not orig and not final:
             print("mv: missing file operand")
@@ -193,8 +254,16 @@ class Directory:
         var.exit_code = 0
         return True
 
-    # Copy anything, anywhere
     def cp(self, orig="", final="", recurse=False, fromMv=False):
+        """
+        Copy from to destination
+
+        :param orig: Original to copy
+        :param final: Destination to save to
+        :param recurse: Whether it should recursively copy
+        :param fromMv: If this was called from mv
+        :return: Whether it was successful
+        """
         # Make sure both are entered
         if not orig and not final:
             if not fromMv:
@@ -281,7 +350,6 @@ class Directory:
                     var.exit_code = 1
                     return False
 
-            
             # Check if moving and renaming
             if not self.get_sub(final) and type(self.get_container(final)) == Directory:
                 dest = self.get_container(final)
@@ -303,11 +371,13 @@ class Directory:
         
         return False
 
-            
-        
-    
-    # Make new file
     def touch(self, path=""):
+        """
+        Make a new empty file
+
+        :param path: Path to create
+        :return: Whether it was successful
+        """
         if path:
             pathSplit = path.split("/")
             if len(pathSplit) == 1:
@@ -320,9 +390,15 @@ class Directory:
             name = pathSplit.pop()
             path = "/".join(pathSplit)
             self.get_sub(path).add(File(name))
-    
-    # Deletes a file
+
     def rm(self, path="", recurse=False):
+        """
+        Delete a given file
+
+        :param path: Path to delete
+        :param recurse: Whether it should be deleted recursively
+        :return: Whether it was successful
+        """
         if path:
             if type(self.get_sub(path)) == File:
                 self.delete(path)
@@ -337,8 +413,13 @@ class Directory:
                 print("rm: cannot remove '{}': No such file or directory".format(path))
                 return False
 
-    # Deletes a directory
     def rmdir(self, path=""):
+        """
+        Delete a directory
+
+        :param path: Path to delete
+        :return: Whether it was successful
+        """
         if path:
             if type(self.get_sub(path)) == Directory:
                 # Exit if empty

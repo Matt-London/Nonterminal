@@ -1,12 +1,17 @@
 from ..resources.colors import colors
-from ..resources import functions as function
 from ..resources import variables as var
 from ..filesystem.Directory import Directory
-from ..filesystem.File import File
 from . import commands
 
+
 class Interpreter:
+    """
+    Interpreter class to handle the terminal
+    """
     def __init__(self):
+        """
+        Constructor with no need for arguments
+        """
         # Contains the head of the filesystem
         self.headDir = Directory("/")
         # Contains reference to current workingDir
@@ -20,8 +25,12 @@ class Interpreter:
         # Set reference from workingDir
         var.workingDir = self.workingDir
 
-    # Prompts and takes input, returns exit code
     def prompt(self):
+        """
+        Prompts for input
+
+        :return: The process success code
+        """
         var.wd = self.workingDir.get_path()[1::]
         ps1 = ""
 
@@ -34,8 +43,13 @@ class Interpreter:
         self.command = str(input())
         return self.process(self.command)
 
-    # Processes given input and runs command, returns exit code
     def process(self, command=""):
+        """
+        Process given input and run command
+
+        :param command: Command to run
+        :return: Exit code to return
+        """
         self.command = command
         if not command:
             var.exit_code = 127
@@ -47,7 +61,6 @@ class Interpreter:
         # Process command into token
         token = command.split(" ")
         self.token = command.split(" ")
-
 
         # Add command to history
         if len(var.bash_history) == 0 or command != var.bash_history[-1]:
@@ -93,11 +106,3 @@ class Interpreter:
         var.exit_code = 127
         print("{}: {}: command not found...".format(var.shell, token[0]))
         return 127
-
-
-    
-
-
-                
-                    
-

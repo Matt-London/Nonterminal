@@ -3,6 +3,11 @@ from packages.parser.Interpreter import Interpreter
 
 
 def main():
+    """
+    Main function with command loop
+
+    :return: Exit code
+    """
     interpreter = Interpreter()
 
     # Check if colors should be disabled
